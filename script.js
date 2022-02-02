@@ -10,12 +10,17 @@ L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}{r}.{ext
 }).addTo(map);
 
   // load GeoJSON from an external file
-$.getJSON('https://raw.githubusercontent.com/gbrunner/adv-programming-for-gis-and-rs/master/Web%20Development%20Module/Unit%201%20-%20GitHub%20and%20Leaflet/sf_crime.geojson',function(data){
-            
-    // add GeoJSON layer to the map once the file is loaded
-    L.geoJson(data).addTo(map);
-  });https://raw.githubusercontent.com/gbrunner/adv-programming-for-gis-and-rs/master/Web%20Development%20Module/Unit%201%20-%20GitHub%20and%20Leaflet/sf_crime.geojson
-var ratIcon = L.icon({
-    iconUrl: 'http://maptimeboston.github.io/leaflet-intro/rat.gif',
-    iconSize: [50,40]
-  })
+  $.getJSON("https://raw.githubusercontent.com/gbrunner/adv-programming-for-gis-and-rs/master/Web%20Development%20Module/Unit%201%20-%20GitHub%20and%20Leaflet/sf_crime.geojson",function(data){
+         var ratIcon = L.icon({
+    iconUrl: 'https://cdn.imgbin.com/13/15/2/imgbin-handcuffs-computer-icons-criminal-law-crime-handcuffs-Q6gNx6nBwL20Puftjcn3pmtC7.jpg',
+    iconSize: [30,30]
+  }); 
+  L.geoJson(data  ,{
+    pointToLayer: function(feature,latlng){
+	    return L.marker(latlng,{icon: ratIcon});
+    },
+    onEachFeature: function (feature, layer) {
+      layer.bindPopup('<h1>Title: '+feature.properties.title+'</h1><p>Description:  '+feature.properties.description+'</p>');
+    }
+  }).addTo(map);
+});
